@@ -1,0 +1,18 @@
+{
+  "name": "bienes_raices_mvc",
+  "version": "1.0.0",
+  "description": "Mi primer proycto",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "server" : "nodemon ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
