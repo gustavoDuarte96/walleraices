@@ -114,8 +114,39 @@ const confirmar = async (req, res) => {
 
 const formularioOlvidePassword = (req, res) => {
     res.render('auth/password-recovery', {
-        pagina: 'Recuperar Password'
+        pagina: 'Recuperar Password',
+        csrfToken: req.csrfToken(),
     });
+}
+
+const resetPassword = async (req, res) => {
+    await check('email').isEmail().withMessage('Email no válido').run(req);
+
+    let resultado = validationResult(req);
+
+    if(!resultado.isEmpty()){
+        return res.render('auth/password-recovery', {
+            pagina: 'Recuperar Password',
+            errores: resultado.array(),
+            csrfToken: req.csrfToken()
+        });
+    }
+
+    const { email } = req.body;
+
+    const usuario = await Usuario.findOne({where: {email: email}});
+
+    if(!usuario){
+        return res.render('auth/password-recovery', {
+            pagina: 'Recuperar Password',
+            errores: [
+                {
+                    msg: 'No existe una cuenta con ese email'
+                }
+            ],
+            csrfToken: req.csrfToken()
+        });
+    }
 }
 
 export {
@@ -123,5 +154,6 @@ export {
     formularioRegistro,
     formularioOlvidePassword,
     registrar,
-    confirmar
+    confirmar,
+    resetPassword
 }
